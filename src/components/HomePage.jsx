@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Container, Row, Col, Form } from 'react-bootstrap'
+import { Container, Row, Col, Form, Alert } from 'react-bootstrap'
 import SliderWeather from './SliderWeather'
 import WeatherCard from './WeatherCard'
 
@@ -9,7 +9,20 @@ const HomePage = () => {
 
     const [ weatherArray, setWeatherArray] = useState(null)
     const [ cityName, setCityName] = useState('')
+    const [ alertFlag, setAlertFlag] = useState(false)
+    const [ opacityFlag, setOpacityFlag] = useState(false)
     // const [ countryName, setCountryName] = useState('')
+
+    const toggleAlertFlag = () => {
+      setAlertFlag(true)
+      setTimeout(() => {
+        setOpacityFlag(true)
+      }, 5)
+      setTimeout(() => {
+        setOpacityFlag(false)
+        setAlertFlag(false)
+      }, 2000)
+    }
 
     const getWeather = async (e, x, y) => {
       console.log('eseguofetch');
@@ -24,6 +37,7 @@ const HomePage = () => {
 
             if (response.ok) {
                 let weather = await response.json()
+                toggleAlertFlag()
                 setWeatherArray(weather)
                 console.log(weather);
 
@@ -42,8 +56,9 @@ const HomePage = () => {
           <Form onSubmit={(e) => { 
               getWeather(e, 1, cityName)
           } }>
+           {alertFlag && <Alert className={opacityFlag ? 'alertFlag d-sm-none text-center opacity' : 'alertFlag d-sm-none text-center'} variant='primary'>Previsioni in fondo alla pagina</Alert>}
             <Form.Control
-              type="text"
+              type="text" 
               value={cityName}
               onChange={(e) => setCityName(e.target.value)}
               placeholder="Es: Milano"
