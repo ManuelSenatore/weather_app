@@ -24,6 +24,10 @@ const HomePage = () => {
       }, 2000)
     }
 
+    const reset = () => {
+      setCityName('')
+    }
+
     const getWeather = async (e, x, y) => {
       console.log('eseguofetch');
       if(x === 1){
@@ -39,6 +43,7 @@ const HomePage = () => {
                 let weather = await response.json()
                 toggleAlertFlag()
                 setWeatherArray(weather)
+                reset()
                 console.log(weather);
 
             } else {
