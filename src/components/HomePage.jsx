@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Container, Row, Col, Form, Alert } from 'react-bootstrap'
 import SliderWeather from './SliderWeather'
 import WeatherCard from './WeatherCard'
+import AlertComponent from "./AlertComponent";
 
 const HomePage = () => {
   
@@ -11,6 +12,8 @@ const HomePage = () => {
     const [ cityName, setCityName] = useState('')
     const [ alertFlag, setAlertFlag] = useState(false)
     const [ opacityFlag, setOpacityFlag] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [mess, setMess] = useState(' ')
     // const [ countryName, setCountryName] = useState('')
 
     const toggleAlertFlag = () => {
@@ -27,6 +30,10 @@ const HomePage = () => {
     const reset = () => {
       setCityName('')
     }
+
+    const handleClick = () => { 
+      setOpen(true);
+    };
 
     const getWeather = async (e, x, y) => {
       console.log('eseguofetch');
@@ -47,14 +54,18 @@ const HomePage = () => {
                 console.log(weather);
 
             } else {
-                console.log('error')
+              setMess('Ci dispiace, città non trovata')
+              handleClick()
             }
         } catch (error) {
-            console.log(error)
+          setMess('Errore del server' + error.message)
+          handleClick()
+          console.log(error);
         }
     }
   return (
       <Container>
+         <AlertComponent open={open} setOpen={setOpen} mess={mess} />
       <Row className='header'>
         <Col xs={9} className=" mx-auto my-3">
           <h1 className="text-center">Cerca Città</h1>
