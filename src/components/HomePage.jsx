@@ -54,7 +54,7 @@ const HomePage = () => {
                 console.log(weather);
 
             } else {
-              setMess('Ci dispiace, città non trovata')
+              setMess('Siamo spiacenti, città non trovata')
               handleClick()
             }
         } catch (error) {
